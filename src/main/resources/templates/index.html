@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="inchoriya">
+    <meta name="date" content="2022.12.28">
+    <meta name="description" content="부트 Security 적용하기">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <title>Boot_Security</title>
+</head>
+    안녕하세요! 반갑습니다! 저는 제대로 잘됩니다!
+<body>
+  <h1>스프링부트 Security 활용하기</h1>
+    <img src="image/잇츠캠퍼스1.png" width="500px"><br/>
+    <button th:if="${session.login eq null}" onclick="location.href='mJoin'">회원가입</button>
+    <button th:if="${session.login eq null}" onclick="location.href='mLogin'">로그인</button>
+    <button th:if="${session.login ne null}" th:onclick="|location.href='@{mView(memId=${session.login.memId})}'|">내정보보기</button>
+    <button th:if="${session.login ne null}" onclick="location.href='mLogout'">로그아웃</button>
+    <button th:if="${session.login ne null && session.login.memId eq 'admin'}" onclick="location.href='mList'">회원목록</button>
+    <button th:if="${session.login ne null}">게시글등록</button>
+    <button>게시글목록</button>
+    <button th:if="${session.login ne null && session.login.memId eq 'admin'}" onclick="location.href='sendEmail'">공지메일</button>
+
+    <br/><br/> session 확인 : <span th:if="${session.login ne null}" th:text="${session.login.memId}"></span>
+
+
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+
+</html>

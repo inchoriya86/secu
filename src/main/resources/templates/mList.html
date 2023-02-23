@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="inchoriya">
+    <meta name="date" content="2022.12.29">
+    <meta name="description" content="ajax를 활용한 회원목록 출력">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <title></title>
+</head>
+
+<body>
+
+    <h1>회원목록</h1>
+
+    <table>
+        <caption>회원목록</caption>
+        <thead>
+        <tr>
+            <th>아이디</th>
+            <th>이름</th>
+            <th>생년월일</th>
+            <th>연락처</th>
+            <th>이메일</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+
+        <tbody id="listArea">
+
+        </tbody>
+    </table>
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+<script th:if = "${session.login eq null}">
+    alert('관리자 전용 페이지 입니다.');
+    location.href = "/";
+</script>
+<script th:if = "${session.login ne null && session.login.memId eq 'admin'}">
+
+    $(function(){
+        let listArea = $("#listArea");
+        let output = "";
+
+        $.ajax({
+            type : "POST",
+            url : "mList",
+            dataType : "json",
+            success : function(result){
+
+                for(let i in result){
+                    output += "<tr>";
+                    output += "     <td><a href='mView?memId=" + result[i].memId + "'>" + result[i].memId + "</a></td>";
+                    output += "     <td>" + result[i].memName + "</td>";
+                    output += "     <td>" + result[i].memBirth + "</td>";
+                    output += "     <td>" + result[i].memPhone + "</td>";
+                    output += "     <td>" + result[i].memEmail + "</td>";
+                    output += "     <td>" + "<button onclick=\"location.href='mDelete?memId="+result[i].memId+"'\">삭제</button>" + "</td>";
+
+                    output += "</tr>";
+                }
+
+                listArea.html(output);
+            },
+            error : function(){
+                alert('회원목록 불러오기 통신 실패!');
+            }
+        });
+
+
+    });
+
+
+
+</script>
+
+</html>

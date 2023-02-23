@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="author" content="inchoriya">
+  <meta name="date" content="2022.12.30">
+  <meta name="description" content="회원정보 상세보기 페이지">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
+  <title>회원정보 상세보기</title>
+</head>
+
+<body>
+
+  <table>
+    <caption>회원정보 상세보기</caption>
+    <tr>
+      <th>아이디</th>
+      <td th:text="${view.memId}"></td>
+    </tr>
+    <tr>
+      <th>비밀번호</th>
+      <td>[[${view.memPw}]]</td>
+    </tr>
+    <tr>
+      <th>이름</th>
+      <td>[[${view.memName}]]</td>
+    </tr>
+    <tr>
+      <th>생년월일</th>
+      <td>[[${view.memBirth}]]</td>
+    </tr>
+    <tr>
+      <th>성별</th>
+      <td>[[${view.memGender}]]</td>
+    </tr>
+    <tr>
+      <th>이메일</th>
+      <td>[[${view.memEmail}]]</td>
+    </tr>
+    <tr>
+      <th>연락처</th>
+      <td>[[${view.memPhone}]]</td>
+    </tr>
+
+    <!-- 카카오 주소 api 사용하기 -->
+    <tr>
+      <th>주소</th>
+      <td>[[${view.memAddr}]]</td>
+    </tr>
+
+    <tr>
+      <th>프로필사진</th>
+      <td><img th:src="@{/profile/{profileName}(profileName=${view.memProfileName})}" width="200px">
+        <br/>[[${view.memProfileName}]]
+      </td>
+    </tr>
+
+    <tr>
+      <th colspan="2">
+        <button>수정</button>
+        <button>삭제</button>
+      </th>
+    </tr>
+
+  </table>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+<script th:if="${session.login eq null || (session.login.memId ne view.memId && session.login.memId ne 'admin')}">
+  alert('본인이 아닙니다.');
+  location.href="/";
+</script>
+</html>
